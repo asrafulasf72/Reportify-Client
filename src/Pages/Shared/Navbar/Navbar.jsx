@@ -1,7 +1,15 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router';
+import useAuth from '../../../Hooks/useAuth';
 
 const Navbar = () => {
+  const {user,userLogout}=useAuth()
+
+  const handleLogOut=()=>{
+     userLogout()
+     .then()
+     .catch()
+  }
   const navlink = (
     <>
       <li>
@@ -52,7 +60,8 @@ const Navbar = () => {
         </div>
         <div className="navbar-end">
           <div className="flex gap-2 items-center z-50">
-            <div className="dropdown dropdown-end">
+            {
+              user ? <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
                 role="button"
@@ -62,7 +71,7 @@ const Navbar = () => {
                   <img
                     id="userDisplayName"
                     alt=""
-                    src=""
+                    src={user?.photoURL}
                   />
                   {/* <ReactTooltip
                       anchorId="userDisplayName"
@@ -79,22 +88,24 @@ const Navbar = () => {
                   <Link to="/" className="justify-between text-black text-[.8rem] font-semibold" > </Link>
                 </li>
                 <li>
-                  <Link to="/" className="text-black text-[.8rem] font-semibold"> User Name</Link>
+                  <p className="text-black text-[.8rem] font-semibold">User Name: {user?.displayName}</p>
                 </li>
                 <li>
-                  <Link to="/" className="text-black text-[.8rem] font-semibold" >Dashboard</Link>
+                  <Link to="/dashboard" className="text-black text-[.8rem] font-semibold" >Dashboard</Link>
                 </li>
                 <li>
-                  <Link className="text-black text-[.8rem] font-semibold">Logout</Link>
-                  <Link className="text-black text-[.8rem] font-semibold" to="/"> Login </Link>
+                  <Link onClick={handleLogOut} className="text-black text-[.8rem] font-semibold">Logout</Link>
                 </li>
               </ul>
             </div>
-            <div>
+            :
+              <div>
               <button className="bg-[#14B8A6] px-4 py-1 rounded-lg text-white text-[1.2rem] font-medium">
                 <Link to="/login">LogIn</Link>
               </button>
             </div>
+            }
+          
           </div>
         </div>
       </div>

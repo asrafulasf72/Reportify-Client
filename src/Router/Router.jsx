@@ -5,6 +5,7 @@ import AuthLayout from "../Layout/AuthLayout";
 import { path } from "framer-motion/client";
 import LogIn from "../Pages/Auth/LogIn/LogIn";
 import Register from "../Pages/Auth/Register/Register";
+import DashboardLayout from "../Layout/DashboardLayout";
 
 export const router=createBrowserRouter([
         {
@@ -28,6 +29,15 @@ export const router=createBrowserRouter([
                 {
                     path:'/register',
                     Component: Register
+                }
+            ]
+        },
+        {
+            path:'/dashboard',
+            Component: DashboardLayout,
+            children:[
+                {
+                    
                 }
             ]
         }

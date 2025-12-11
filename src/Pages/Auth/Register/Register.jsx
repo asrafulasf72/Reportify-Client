@@ -1,25 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
 import toast from 'react-hot-toast';
 import LoginWithGoogleBtn from '../SocialLogin/LoginWithGoogleBtn';
+import axios from 'axios';
+import { upLoadImage } from '../../../utils';
+import { Eye, EyeOff } from 'lucide-react';
 
  const Register = () => {
+  const [showPass,setShowPass]=useState(false)
   const {register,handleSubmit, formState:{errors}}=useForm();
-  const {registerUser}=useAuth()
+  const {registerUser, UpdateUserProfile}=useAuth()
   const location=useLocation()
   const navigate=useNavigate()
 
-  const handleRegistration=(data)=>{
-    registerUser(data.email, data.password)
-    .then((res)=>{
-      console.log(res);
-      toast.success("Sign Up Succesfully Done")
-       navigate(location?.state || '/')
-    }).catch((error)=>{
-       toast.error("Sorry This Email you Alredy Used")
-    })
+  const handleRegistration=async(data)=>{
+            const { name, photo, email, password } = data
+            const imageFile = photo[0]
+
+            try{
+                 const imageURL= await upLoadImage(imageFile)
+                  await registerUser(email,password)
+                  await UpdateUserProfile(name,imageURL)
+                  toast.success('Register successfully Done')
+                  navigate(location?.state || '/')
+            }catch(error){
+                 toast.error(err?.message)
+            }
          
   }
   return (
@@ -43,17 +51,20 @@ import LoginWithGoogleBtn from '../SocialLogin/LoginWithGoogleBtn';
           {errors.email?. type==='required' && <p className="text-red-500">Email Is required</p>}
 
 
-          <label className="label">Password</label>
-          <input type="password" className="input" {...register('password', {required: true, minLength: 6, pattern:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$/})} placeholder="Password" />
+         <div className='relative'>
+           <label className="label">Password</label>
+          <input type={showPass?"text":"password"} className="input" {...register('password', {required: true, minLength: 6, pattern:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$/})} placeholder="Password" />
+           <span onClick={()=>setShowPass(!showPass)} className='absolute cursor-pointer z-50 right-6 top-7'>{showPass?<Eye />:<EyeOff />}</span>
            {
-            errors.password?.type==='required' && <p className="text-red-500">Password Is required</p>
+            errors.password?.type==='required' && <p className="text-red-500 mt-2">Password Is required</p>
            }
            {
-            errors.password?.type==='minLength' && <p className="text-red-500">Password Must be 6 character longer</p>
+            errors.password?.type==='minLength' && <p className="text-red-500 mt-2">Password Must be 6 character longer</p>
            }
            {
-            errors.password?.type==='pattern' && <p className="text-red-500">Password must include: uppercase, lowercase, number, and special character.</p>
+            errors.password?.type==='pattern' && <p className="text-red-500 mt-2">Password must include: uppercase, lowercase, number, and special character.</p>
            }
+         </div>
 
 
 
