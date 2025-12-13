@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
+import Loader from '../../../Component/Loader';
+import { CircleUser, LayoutDashboard, LogOut } from 'lucide-react';
 
 const Navbar = () => {
-  const {user,userLogout}=useAuth()
+  const {user,userLogout,loading}=useAuth()
 
   const handleLogOut=()=>{
      userLogout()
@@ -61,7 +63,7 @@ const Navbar = () => {
         <div className="navbar-end">
           <div className="flex gap-2 items-center z-50">
             {
-              user ? <div className="dropdown dropdown-end">
+              loading?<span className="loading loading-dots loading-sm"></span>:user ? <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
                 role="button"
@@ -70,7 +72,7 @@ const Navbar = () => {
                 <div className="w-10 rounded-full">
                   <img
                     id="userDisplayName"
-                    alt=""
+                    alt={user?.displayName}
                     src={user?.photoURL}
                   />
                   {/* <ReactTooltip
@@ -88,13 +90,13 @@ const Navbar = () => {
                   <Link to="/" className="justify-between text-black text-[.8rem] font-semibold" > </Link>
                 </li>
                 <li>
-                  <p className="text-black text-[.8rem] font-semibold">User Name: {user?.displayName}</p>
+                  <p className="text-black text-[1rem] font-semibold"><CircleUser size={16} /> {user?.displayName}</p>
                 </li>
                 <li>
-                  <Link to="/dashboard" className="text-black text-[.8rem] font-semibold" >Dashboard</Link>
+                  <Link to="/dashboard" className="text-black text-[1rem] font-semibold" ><LayoutDashboard size={16}/>Dashboard</Link>
                 </li>
                 <li>
-                  <Link onClick={handleLogOut} className="text-black text-[.8rem] font-semibold">Logout</Link>
+                  <Link onClick={handleLogOut} className="text-black text-[1rem] font-semibold"><LogOut size={16} />Logout</Link>
                 </li>
               </ul>
             </div>

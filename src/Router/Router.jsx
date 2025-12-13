@@ -6,39 +6,56 @@ import { path } from "framer-motion/client";
 import LogIn from "../Pages/Auth/LogIn/LogIn";
 import Register from "../Pages/Auth/Register/Register";
 import DashboardLayout from "../Layout/DashboardLayout";
+import NotFound from "../Component/NotFound";
+import Loader from "../Component/Loader";
+import ReportIssue from "../Pages/Dashboard/Report Issue/ReportIssue";
+import MyIssue from "../Pages/Dashboard/My Issue/MyIssue";
+import CitizenProfile from "../Pages/Dashboard/Profile/CitizenProfile";
 
-export const router=createBrowserRouter([
-        {
-            path:'/',
-            Component:RootLayout,
-            children:[
-                {
-                    index:true,
-                    Component:Home
-                }
-            ]
-        },
-        {
-            path:'/',
-            Component:AuthLayout,
-            children:[
-                {
-                    path:'/login',
-                    Component: LogIn
-                },
-                {
-                    path:'/register',
-                    Component: Register
-                }
-            ]
-        },
-        {
-            path:'/dashboard',
-            Component: DashboardLayout,
-            children:[
-                {
-                    
-                }
-            ]
-        }
+export const router = createBrowserRouter([
+    {
+        path: '/',
+        Component: RootLayout,
+        errorElement: <NotFound />,
+        hydrateFallbackElement: <Loader />,
+        children: [
+            {
+                index: true,
+                Component: Home
+            }
+        ]
+    },
+    {
+        path: '/',
+        Component: AuthLayout,
+        children: [
+            {
+                path: '/login',
+                Component: LogIn
+            },
+            {
+                path: '/register',
+                Component: Register
+            }
+        ]
+    },
+    {
+        path: '/dashboard',
+        Component: DashboardLayout,
+        children: [
+            {
+                path: '/dashboard/myIssue',
+                element: <MyIssue />
+            },
+            {
+                path: '/dashboard/reportIssue',
+                element: <ReportIssue />
+            },
+            {
+                path:'/dashboard/citizenProfile',
+                element:<CitizenProfile/>
+            }
+
+        ]
+    }
 ])
