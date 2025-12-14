@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
@@ -8,11 +9,11 @@ import { upLoadImage } from "../../../utils";
 import Loader from "../../../Component/Loader";
 
 const ReportIssue = () => {
-  const { user,loading } = useAuth();
+  const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const [canReport, setCanReport] = useState(true);
   const {
     register,
     handleSubmit,
@@ -20,64 +21,77 @@ const ReportIssue = () => {
     reset,
   } = useForm();
 
-  // Check User Issue Limit
+  //  Fetch user info using TanStack Query
+  const { data: userInfo, isLoading } = useQuery({
+    queryKey: ["user", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}`);
+      return res.data;
+    },
+  });
 
-  useEffect(() => {
-    axiosSecure.get(`/users/${user?.email}`)
-      .then((res) => {
-        const { role, issueCount } = res.data;
-        if (role === 'free' && issueCount >= 3) {
-          setCanReport(false)
-        }
-      })
-  }, [axiosSecure, user?.email])
+  //  Auth loading
+  if (loading || isLoading) {
+    return <Loader />;
+  }
 
- if(loading){
-   return <Loader/>
- }
-    if (!canReport) {
-      return (
-        <div className="max-w-xl mx-auto text-center mt-20">
-          <h2 className="text-2xl font-bold mb-4">Issue Limit Reached</h2>
-          <p className="mb-6 text-gray-600">
-            Free users can report only 3 issues. Upgrade to premium to report unlimited issues.
-          </p>
-          <button
-            onClick={() => navigate("/dashboard/citizenProfile")}
-            className="bg-blue-600 text-white px-6 py-2 rounded"
-          >
-            Subscribe Now
-          </button>
-        </div>
-      )
-    }
+  //  Free vs Premium logic
+  const isFreeUser = userInfo?.subscription === "free";
+  const hasReachedLimit = isFreeUser && userInfo?.issueCount >= 3;
 
+  // Hide form & show Subscribe button
+  if (hasReachedLimit) {
+    return (
+      <div className="max-w-xl mx-auto text-center mt-20">
+        <h2 className="text-2xl font-bold mb-4">Issue Limit Reached</h2>
+        <p className="mb-6 text-gray-600">
+          Free users can report only 3 issues. Upgrade to premium to report unlimited issues.
+        </p>
+        <button
+          onClick={() => navigate("/dashboard/citizenProfile")}
+          className="bg-blue-600 text-white px-6 py-2 rounded"
+        >
+          Subscribe Now
+        </button>
+      </div>
+    );
+  }
+
+  //  Submit issue
   const onSubmit = async (data) => {
-    const { title, description, category, image, location } = data
-    const imageFile = image[0]
+    const { title, description, category, image, location } = data;
 
+    if (!image || image.length === 0) {
+      return toast.error("Please upload an image");
+    }
 
     try {
-      const imageURL = await upLoadImage(imageFile)
+      const imageURL = await upLoadImage(image[0]);
+
       const issueData = {
-        title: title,
-        description: description,
-        category: category,
-        location: location,
+        title,
+        description,
+        category,
+        location,
         image: imageURL,
-        email: user.email
-      }
-      const res = await axiosSecure.post('/issues', issueData)
+        email: user.email,
+      };
+
+      const res = await axiosSecure.post("/issues", issueData);
+
       if (res.data.insertedId) {
-        toast.success("Issue reported successfully")
+        toast.success("Issue reported successfully");
         reset();
-        navigate('/dashboard/myIssue')
+
+        //  Refresh user data (issueCount)
+        queryClient.invalidateQueries(["user", user.email]);
+
+        navigate("/dashboard/myIssue");
       }
-
     } catch (error) {
-      toast.error('Failed to report issue');
+      toast.error("Failed to report issue");
     }
-
   };
 
   return (
@@ -114,11 +128,9 @@ const ReportIssue = () => {
           <textarea
             rows="4"
             placeholder="Describe the issue clearly"
-            {...register("description", {
-              required: "Description is required",
-            })}
+            {...register("description", { required: "Description is required" })}
             className="w-full border px-3 py-2 rounded-md focus:ring focus:ring-blue-200"
-          ></textarea>
+          />
           {errors.description && (
             <p className="text-red-600 text-sm">{errors.description.message}</p>
           )}
@@ -139,7 +151,6 @@ const ReportIssue = () => {
             <option value="Footpath Damage">Footpath Damage</option>
             <option value="Other">Other</option>
           </select>
-
           {errors.category && (
             <p className="text-red-600 text-sm">{errors.category.message}</p>
           )}
@@ -162,9 +173,7 @@ const ReportIssue = () => {
           <input
             type="text"
             placeholder="Enter location or address"
-            {...register("location", {
-              required: "Location is required",
-            })}
+            {...register("location", { required: "Location is required" })}
             className="w-full border px-3 py-2 rounded-md focus:ring focus:ring-blue-200"
           />
           {errors.location && (
@@ -185,4 +194,3 @@ const ReportIssue = () => {
 };
 
 export default ReportIssue;
-
