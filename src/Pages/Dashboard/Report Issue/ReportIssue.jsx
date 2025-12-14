@@ -184,7 +184,7 @@ const ReportIssue = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md font-semibold transition"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md font-semibold transition cursor-pointer"
         >
           Submit Issue
         </button>

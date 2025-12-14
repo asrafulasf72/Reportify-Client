@@ -9,9 +9,9 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import NotFound from "../Component/NotFound";
 import Loader from "../Component/Loader";
 import ReportIssue from "../Pages/Dashboard/Report Issue/ReportIssue";
-import MyIssue from "../Pages/Dashboard/My Issue/MyIssue";
 import CitizenProfile from "../Pages/Dashboard/Profile/CitizenProfile";
 import PrivateRouter from "./PrivateRouter";
+import MyIssues from "../Pages/Dashboard/My Issue/MyIssues";
 
 export const router = createBrowserRouter([
     {
@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: '/dashboard/myIssue',
-                element: <MyIssue />
+                element: <MyIssues/>
             },
             {
                 path: '/dashboard/reportIssue',
