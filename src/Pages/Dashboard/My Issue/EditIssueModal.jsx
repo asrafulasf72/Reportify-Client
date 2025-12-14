@@ -1,56 +1,59 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 
-const EditIssueModal = ({ issue, close }) => {
+const EditIssueModal = ({ issue }) => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
+  const { register, handleSubmit, reset } = useForm();
 
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
+  useEffect(() => {
+    reset({
       title: issue.title,
       description: issue.description,
-      category: issue.category,
       location: issue.location,
-    },
-  });
+    });
+  }, [issue, reset]);
 
   const mutation = useMutation({
-    mutationFn: (updatedData) =>
-      axiosSecure.patch(`/issues/${issue._id}`, updatedData),
+    mutationFn: (data) =>
+      axiosSecure.patch(`/issues/${issue._id}`, data),
     onSuccess: () => {
-      toast.success("Issue updated");
+      toast.success("Issue updated successfully");
       queryClient.invalidateQueries(["myIssues"]);
-      close();
+      document.getElementById("edit_issue_modal").close();
     },
   });
 
-  const onSubmit = (data) => {
-    mutation.mutate(data);
-  };
-
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-6 rounded-lg w-96 space-y-4"
-      >
-        <h2 className="text-xl font-bold">Edit Issue</h2>
+    <dialog id="edit_issue_modal" className="modal modal-bottom sm:modal-middle">
+      <div className="modal-box">
+        <h3 className="font-bold text-lg mb-4">Edit Issue</h3>
 
-        <input {...register("title")} className="border w-full px-2 py-1" />
-        <textarea {...register("description")} className="border w-full px-2 py-1" />
-        <input {...register("location")} className="border w-full px-2 py-1" />
+        <form onSubmit={handleSubmit(mutation.mutate)} className="space-y-3">
+          <input {...register("title")} className="border w-full px-2 py-1" />
+          <textarea {...register("description")} className="border w-full px-2 py-1" />
+          <input {...register("location")} className="border w-full px-2 py-1" />
 
-        <div className="flex justify-end gap-3">
-          <button type="button" onClick={close}>Cancel</button>
-          <button className="bg-blue-600 text-white px-4 py-1 rounded">
-            Update
-          </button>
-        </div>
-      </form>
-    </div>
+          <input
+            value={issue.category}
+            disabled
+            className="border w-full px-2 py-1 bg-gray-100"
+          />
+
+          <div className="modal-action">
+            <button className="bg-blue-600 text-white px-4 py-1 rounded">
+              Update
+            </button>
+            <form method="dialog">
+              <button className="btn">Cancel</button>
+            </form>
+          </div>
+        </form>
+      </div>
+    </dialog>
   );
 };
 
