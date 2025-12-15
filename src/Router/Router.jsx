@@ -12,6 +12,8 @@ import ReportIssue from "../Pages/Dashboard/Report Issue/ReportIssue";
 import CitizenProfile from "../Pages/Dashboard/Profile/CitizenProfile";
 import PrivateRouter from "./PrivateRouter";
 import MyIssues from "../Pages/Dashboard/My Issue/MyIssues";
+import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
+import PaymentcanCeled from "../Pages/Dashboard/Payment/PaymentcanCeled";
 
 export const router = createBrowserRouter([
     {
@@ -55,6 +57,14 @@ export const router = createBrowserRouter([
             {
                 path:'/dashboard/citizenProfile',
                 element:<CitizenProfile/>
+            },
+            {
+                path:'/dashboard/payment-success',
+                element:<PaymentSuccess/>
+            },
+            {
+                path:'/dashboard/payment-canceled',
+                element:<PaymentcanCeled/>
             }
 
         ]

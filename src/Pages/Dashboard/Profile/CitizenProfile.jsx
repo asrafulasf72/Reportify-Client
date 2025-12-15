@@ -11,21 +11,28 @@ const CitizenProfile = () => {
   const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
   const [loading, setLoading] = useState(false);
 
-  // 🔔 Subscribe handler
-  const handleSubscribe = async () => {
-    try {
-      setLoading(true);
-      await axiosSecure.patch(`/users/subscribe/${user.email}`);
-      toast.success("Subscription successful! You are now a premium user.");
-      refetchUser(); // IMPORTANT
-    } catch (error) {
-      toast.error("Subscription failed");
-    } finally {
-      setLoading(false);
+  //  Subscribe handler
+  const handleSubscribe = async (user) => {
+    const paymentInfo = {
+      email: user.email,
+      cost: 1000,
+      displayName: user.displayName
     }
+
+    try {
+      setLoading(true)
+      const res = await axiosSecure.post("/create-checkout-session", paymentInfo)
+      window.location.href = res.data.url;
+    } catch(error) {
+          toast.error("Payment initiation failed");
+    } finally {
+        setLoading(false)
+    }
+
+
   };
 
-  // 📝 Update profile handler
+  //  Update profile handler
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
 
@@ -87,7 +94,7 @@ const CitizenProfile = () => {
           <p className="mb-4">
             Pay <strong>1000 TK</strong> to unlock unlimited issue submission.
           </p>
-          <button onClick={handleSubscribe} disabled={loading} className="btn btn-primary" >
+          <button onClick={() => handleSubscribe(user)} disabled={loading} className="btn btn-primary" >
             Subscribe Now
           </button>
         </div>
