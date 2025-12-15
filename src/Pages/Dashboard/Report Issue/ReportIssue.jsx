@@ -37,7 +37,7 @@ const ReportIssue = () => {
   }
 
   //  Free vs Premium logic
-  const isFreeUser = userInfo?.subscription === "free";
+  const isFreeUser = userInfo?.isPremium === false;
   const hasReachedLimit = isFreeUser && userInfo?.issueCount >= 3;
 
   // Hide form & show Subscribe button
