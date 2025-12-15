@@ -7,7 +7,7 @@ const CitizenProfile = () => {
   const { user, refetchUser } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const [name, setName] = useState(user?.name || "");
+  const [displayName, setdisplayName] = useState(user?.displayName || "");
   const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +32,7 @@ const CitizenProfile = () => {
     try {
       setLoading(true);
       await axiosSecure.patch(`/users/update/${user.email}`, {
-        name,
+        displayName,
         photoURL,
       });
       toast.success("Profile updated successfully");
@@ -47,14 +47,14 @@ const CitizenProfile = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
 
-      {/* 🚫 Block Warning */}
+      {/* Block Warning */}
       {user?.isBlocked && (
         <div className="bg-red-100 text-red-700 p-4 rounded-lg">
           ⚠ Your account has been blocked. Please contact the authorities.
         </div>
       )}
 
-      {/* 👤 Profile Card */}
+      {/* Profile Card */}
       <div className="bg-white shadow rounded-lg p-6 flex items-center gap-6">
         <img
           src={user?.photoURL}
@@ -78,7 +78,7 @@ const CitizenProfile = () => {
         </div>
       </div>
 
-      {/* 💎 Premium Section */}
+      {/*  Premium Section */}
       {!user?.isPremium && !user?.isBlocked && (
         <div className="bg-blue-50 p-6 rounded-lg">
           <h3 className="text-lg font-semibold mb-2">
@@ -87,11 +87,7 @@ const CitizenProfile = () => {
           <p className="mb-4">
             Pay <strong>1000 TK</strong> to unlock unlimited issue submission.
           </p>
-          <button
-            onClick={handleSubscribe}
-            disabled={loading}
-            className="btn btn-primary"
-          >
+          <button onClick={handleSubscribe} disabled={loading} className="btn btn-primary" >
             Subscribe Now
           </button>
         </div>
@@ -103,7 +99,7 @@ const CitizenProfile = () => {
         </div>
       )}
 
-      {/* ✏ Update Profile */}
+      {/* Update Profile */}
       {!user?.isBlocked && (
         <div className="bg-white shadow rounded-lg p-6">
           <h3 className="text-lg font-semibold mb-4">
@@ -117,8 +113,8 @@ const CitizenProfile = () => {
               </label>
               <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={displayName}
+                onChange={(e) => setdisplayName(e.target.value)}
                 className="input input-bordered w-full"
                 required
               />
