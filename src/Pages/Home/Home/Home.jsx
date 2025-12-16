@@ -5,7 +5,10 @@ import HowItWork from '../How Work/HowItWork';
 import WhyChoose from '../How Work/WhyChoose';
 import StatsSection from '../How Work/StatsSection';
 
+
+
  const Home = () => {
+
   return (
     <div>
         <Banner/>

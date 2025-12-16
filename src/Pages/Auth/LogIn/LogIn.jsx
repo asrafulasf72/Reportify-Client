@@ -15,7 +15,7 @@ const LogIn = () => {
     const handleLogin = (data) => {
         signInUser(data.email, data.password)
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 toast.success("Your LogedIn Successfully")
                 navigate(location?.state || '/')
             }).catch((error) => {

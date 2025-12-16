@@ -60,9 +60,11 @@ const AuthProvider = ({ children }) => {
             setFirebaseUser(currentUser);
 
             if (currentUser?.email) {
+                await currentUser.getIdToken(true)
                 await fetchDbUser(currentUser.email);
             } else {
                 setUser(null);
+        
             }
 
             setLoading(false);
