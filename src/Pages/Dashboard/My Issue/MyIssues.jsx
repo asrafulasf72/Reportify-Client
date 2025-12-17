@@ -65,6 +65,8 @@ const MyIssues = () => {
           <option value="Streetlight">Streetlight</option>
           <option value="Road Damage">Road Damage</option>
           <option value="Garbage Issue">Garbage Issue</option>
+          <option value="Footpath Damage">Footpath Damage</option>
+          <option value="Water Leakage">Water Leakage</option>
           <option value="Other">Other</option>
         </select>
       </div>

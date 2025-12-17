@@ -37,7 +37,7 @@ const IssueCard = ({ issue }) => {
 
       <div className="flex gap-3 mt-5">
         <button
-          onClick={() => navigate(`/issues/${issue._id}`)}
+          onClick={() => navigate(`/issues/details/${issue._id}`)}
           className="flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-medium bg-slate-200 text-slate-700 hover:bg-teal-600 hover:text-white transition cursor-pointer"
         >
           <Eye size={16} /> View

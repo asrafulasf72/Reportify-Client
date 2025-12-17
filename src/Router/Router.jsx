@@ -14,6 +14,8 @@ import PrivateRouter from "./PrivateRouter";
 import MyIssues from "../Pages/Dashboard/My Issue/MyIssues";
 import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 import PaymentcanCeled from "../Pages/Dashboard/Payment/PaymentcanCeled";
+import IssueDetails from "../Pages/Dashboard/IssueDetails/IssueDetails";
+import BoostSuccess from "../Pages/Dashboard/BoostSuccess/BoostSuccess";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: Home
+            },
+            {
+                path:'/issues/details/:id',
+                element: <PrivateRouter><IssueDetails/></PrivateRouter>
+            },
+            {
+                path:'/issues/boost-success',
+                element:<BoostSuccess/>
             }
         ]
     },
