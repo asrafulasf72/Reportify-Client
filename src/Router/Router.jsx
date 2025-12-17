@@ -16,6 +16,7 @@ import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 import PaymentcanCeled from "../Pages/Dashboard/Payment/PaymentcanCeled";
 import IssueDetails from "../Pages/Dashboard/IssueDetails/IssueDetails";
 import BoostSuccess from "../Pages/Dashboard/BoostSuccess/BoostSuccess";
+import AllIssues from "../Pages/AllIssues/AllIssues";
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
             {
                 path:'/issues/boost-success',
                 element:<BoostSuccess/>
+            },
+            {
+                path:'/all-issues-page',
+                Component: AllIssues
             }
         ]
     },
