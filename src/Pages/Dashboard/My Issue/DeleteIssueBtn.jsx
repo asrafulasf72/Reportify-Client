@@ -13,7 +13,7 @@ const DeleteIssueBtn = ({ id, email }) => {
     onSuccess: () => {
       toast.success("Issue deleted");
 
-      // 🔥 This updates UI instantly
+      // This updates UI instantly
       queryClient.invalidateQueries({
         queryKey: ["myIssues", email],
       });

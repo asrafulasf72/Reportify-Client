@@ -75,7 +75,6 @@ const ReportIssue = () => {
         category,
         location,
         image: imageURL,
-        email: user.email,
       };
 
       const res = await axiosSecure.post("/issues", issueData);

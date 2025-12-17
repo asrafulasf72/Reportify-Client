@@ -56,7 +56,7 @@ const IssueCard = ({ issue }) => {
           </button>
         )}
 
-        <DeleteIssueBtn id={issue._id} email={issue.email}>
+       <DeleteIssueBtn id={issue._id} email={issue.citizenEmail}>
           <Trash2 size={16} />
         </DeleteIssueBtn>
       </div>
