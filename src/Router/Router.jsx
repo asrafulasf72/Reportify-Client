@@ -18,6 +18,8 @@ import IssueDetails from "../Pages/Dashboard/IssueDetails/IssueDetails";
 import BoostSuccess from "../Pages/Dashboard/BoostSuccess/BoostSuccess";
 import AllIssues from "../Pages/AllIssues/AllIssues";
 import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
+import AdminRoute from "./AdminRoute";
+import AdminAllIssues from "../Pages/Dashboard/Admin/AdminAllIssues";
 
 export const router = createBrowserRouter([
     {
@@ -85,6 +87,10 @@ export const router = createBrowserRouter([
             {
                 path:'/dashboard/payment-canceled',
                 element:<PaymentcanCeled/>
+            },
+            {
+                path:'/dashboard/admin-all-issues',
+                element:<AdminRoute><AdminAllIssues/></AdminRoute>
             }
 
         ]

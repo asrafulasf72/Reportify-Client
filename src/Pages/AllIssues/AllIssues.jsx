@@ -126,7 +126,7 @@ const AllIssues = () => {
                                 <span className={`badge ${issue.priority === "high" ? "badge-error" : "badge-success"}`}>
                                     {issue.priority}
                                 </span>
-                                <span className="badge badge-warning">{issue.status}</span>
+                                <span className={`${issue.status === 'rejected'?'bg-red-300 badge':'badge badge-warning' }`}>{issue.status}</span>
                             </div>
 
                             <p className="text-sm mb-4">📍 {issue.location}</p>

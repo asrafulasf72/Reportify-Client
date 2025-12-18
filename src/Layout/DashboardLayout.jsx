@@ -1,8 +1,10 @@
-import { ClipboardPlus, House, LayoutDashboard, ListCheck, UserRoundPen } from 'lucide-react';
+import { ClipboardPlus, House, LayoutDashboard, ListCheck, ListTodo, UserRoundPen } from 'lucide-react';
 import React from 'react'
 import { Link, Outlet } from 'react-router';
+import useRole from '../Hooks/useRole';
 
 const DashboardLayout = () => {
+    const { role } = useRole()
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -16,7 +18,7 @@ const DashboardLayout = () => {
                     <div className="px-4 text-4xl font-semibold my-5">Reportify Dashboard</div>
                 </nav>
                 {/* Page content here */}
-                <Outlet/>
+                <Outlet />
             </div>
 
             <div className="drawer-side is-drawer-close:overflow-visible">
@@ -28,7 +30,7 @@ const DashboardLayout = () => {
                         <li>
                             <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
                                 {/* Home icon */}
-                              <House size={20}/>
+                                <House size={20} />
                                 <span className="is-drawer-close:hidden">Homepage</span>
                             </Link>
                         </li>
@@ -36,31 +38,49 @@ const DashboardLayout = () => {
                         <li>
                             <Link to='/dashboard' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Dashboard">
                                 {/* Home icon */}
-                               <LayoutDashboard size={20}/>
+                                <LayoutDashboard size={20} />
                                 <span className="is-drawer-close:hidden">Dashboard</span>
                             </Link>
                         </li>
-                        <li>
-                            <Link to='/dashboard/myIssue' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Issues">
-                                {/* Home icon */}
-                               <ListCheck size={20}/>
-                                <span className="is-drawer-close:hidden">My Issues</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to='/dashboard/reportIssue' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Report Issue">
-                                {/* Home icon */}
-                              <ClipboardPlus size={20}/>
-                                <span className="is-drawer-close:hidden">Report Issue</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to='/dashboard/citizenProfile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Profile">
-                                {/* Home icon */}
-                               <UserRoundPen size={20}/>
-                                <span className="is-drawer-close:hidden">Profile</span>
-                            </Link>
-                        </li>
+                        {
+                            role === 'citizen' && <>
+                                <li>
+                                    <Link to='/dashboard/myIssue' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Issues">
+                                        {/* Home icon */}
+                                        <ListCheck size={20} />
+                                        <span className="is-drawer-close:hidden">My Issues</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/reportIssue' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Report Issue">
+                                        {/* Home icon */}
+                                        <ClipboardPlus size={20} />
+                                        <span className="is-drawer-close:hidden">Report Issue</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/citizenProfile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Profile">
+                                        {/* Home icon */}
+                                        <UserRoundPen size={20} />
+                                        <span className="is-drawer-close:hidden">Profile</span>
+                                    </Link>
+                                </li>
+
+                            </>
+                        }
+                        {
+                            role === 'admin' && <>
+
+                                <li>
+                                    <Link to='/dashboard/admin-all-issues' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="All Issues">
+                                        {/* Home icon */}
+                                        <ListTodo size={20} />
+                                        <span className="is-drawer-close:hidden">All Issues</span>
+                                    </Link>
+                                </li>
+
+                            </>
+                        }
 
                     </ul>
                 </div>
