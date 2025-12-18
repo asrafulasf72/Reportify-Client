@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/issues/boost-success',
-                element:<BoostSuccess/>
+                element:<PrivateRouter><BoostSuccess/></PrivateRouter>
             },
             {
                 path:'/all-issues-page',
