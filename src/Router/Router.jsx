@@ -17,6 +17,7 @@ import PaymentcanCeled from "../Pages/Dashboard/Payment/PaymentcanCeled";
 import IssueDetails from "../Pages/Dashboard/IssueDetails/IssueDetails";
 import BoostSuccess from "../Pages/Dashboard/BoostSuccess/BoostSuccess";
 import AllIssues from "../Pages/AllIssues/AllIssues";
+import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
 
 export const router = createBrowserRouter([
     {
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
         path: '/dashboard',
         element: <PrivateRouter><DashboardLayout/></PrivateRouter>,
         children: [
+            {
+               index:true,
+               Component: DashboardHome,
+            },
             {
                 path: '/dashboard/myIssue',
                 element: <MyIssues/>
