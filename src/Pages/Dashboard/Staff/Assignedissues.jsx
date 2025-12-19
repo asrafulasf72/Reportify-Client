@@ -19,7 +19,7 @@ const AssignedIssues = () => {
     priority: "",
   });
 
-  // 🔹 Fetch Assigned Issues
+  //  Fetch Assigned Issues
   const { data: issues = [], isLoading } = useQuery({
     queryKey: ["assignedIssues", filters],
     queryFn: async () => {
@@ -30,7 +30,7 @@ const AssignedIssues = () => {
     },
   });
 
-  // 🔹 Update Status
+  //  Update Status
   const { mutate: updateStatus } = useMutation({
     mutationFn: async ({ id, status }) => {
       return axiosSecure.patch(`/staff/issues/status/${id}`, { status });
@@ -52,7 +52,7 @@ const AssignedIssues = () => {
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Assigned Issues</h2>
 
-      {/* 🔹 Filters */}
+      {/* Filters */}
       <div className="flex gap-3 mb-4">
         <select
           className="select select-bordered"
@@ -80,7 +80,7 @@ const AssignedIssues = () => {
         </select>
       </div>
 
-      {/* 🔹 Table */}
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="table table-zebra">
           <thead>

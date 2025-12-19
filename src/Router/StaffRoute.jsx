@@ -11,8 +11,8 @@ import Loader from '../Component/Loader';
         return <Loader/>
     }
 
-    if(role !== 'admin'){
-        return <div><h1 className='text-5xl text-red-400'>Access Forbidden</h1></div>
+    if(role !== 'staff'){
+        return<Loader/>
     }
   return children
 }

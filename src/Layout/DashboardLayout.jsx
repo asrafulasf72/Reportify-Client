@@ -106,7 +106,7 @@ const DashboardLayout = () => {
                         {
                             role === 'staff' && <>
                                 <li>
-                                    <Link to='/dashboard/assigned-issues' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment Page">
+                                    <Link to='/dashboard/assigned-issues' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assigned Issues">
                                         <PackageCheck size={20}/>
                                         <span className="is-drawer-close:hidden">Assigned Issues</span>
                                     </Link>

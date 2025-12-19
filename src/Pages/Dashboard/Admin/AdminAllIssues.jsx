@@ -91,8 +91,8 @@ const AdminAllIssues = () => {
                             <td>
                                 <span
                                     className={`badge ${issue.priority === "high"
-                                            ? "badge-error"
-                                            : "badge-info"
+                                        ? "badge-error"
+                                        : "badge-info"
                                         }`}
                                 >
                                     {issue.priority}
@@ -102,28 +102,58 @@ const AdminAllIssues = () => {
                                 {issue.assignedStaff ? issue.assignedStaff : "Not Assigned"}
                             </td>
                             <td className="space-x-2">
-                                {
-
-                                    issue.status === "pending" ? !issue.assignedStaff && (
+                                {/* Pending & Not Assigned */}
+                                {issue.status === "pending" && !issue.assignedStaff && (
+                                    <>
                                         <button
                                             className="btn btn-sm btn-primary font-bold"
                                             onClick={() => setSelectedIssue(issue)}
                                         >
                                             Assign Staff
                                         </button>
-                                    ) : <button className="btn btn-sm btn-outline btn-secondary font-bold">Issues Rejected</button>
 
-                                }
+                                        <button
+                                            className="btn btn-sm btn-error font-bold"
+                                            onClick={() => handleReject(issue._id)}
+                                        >
+                                            Reject
+                                        </button>
+                                    </>
+                                )}
 
-                                {issue.status === "pending" && (
+                                {/* Rejected */}
+                                {issue.status === "rejected" && (
                                     <button
-                                        className="btn btn-sm btn-error font-bold"
-                                        onClick={() => handleReject(issue._id)}
+                                        className="btn btn-sm bg-red-300 text-black font-bold"
+                                        disabled
                                     >
-                                        Reject
+                                        Rejected
                                     </button>
                                 )}
+
+                                {/* Closed */}
+                                {issue.status === "closed" && (
+                                    <button
+                                        className="btn btn-sm  bg-green-200 text-black font-bold"
+                                        disabled
+                                    >
+                                        Issue Closed
+                                    </button>
+                                )}
+
+                                {/* Staff Assigned (but not closed or rejected) */}
+                                {issue.assignedStaff &&
+                                    issue.status !== "rejected" &&
+                                    issue.status !== "closed" && (
+                                        <button
+                                            className="btn btn-sm bg-blue-300 text-black font-bold"
+                                            disabled
+                                        >
+                                            Staff Assigned
+                                        </button>
+                                    )}
                             </td>
+
                         </tr>
                     ))}
                 </tbody>
