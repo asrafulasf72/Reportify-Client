@@ -1,4 +1,4 @@
-import { ClipboardPlus, House, LayoutDashboard, ListCheck, ListTodo, Pickaxe, UserRoundPen } from 'lucide-react';
+import { ClipboardPlus, House, LayoutDashboard, ListCheck, ListTodo, Pickaxe, UserRoundPen, Users } from 'lucide-react';
 import React from 'react'
 import { Link, Outlet } from 'react-router';
 import useRole from '../Hooks/useRole';
@@ -76,6 +76,13 @@ const DashboardLayout = () => {
                                         {/* Home icon */}
                                         <ListTodo size={20} />
                                         <span className="is-drawer-close:hidden">All Issues</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/manage-users' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users">
+                                        {/* Home icon */}
+                                        <Users size={20} />
+                                        <span className="is-drawer-close:hidden">Manage Users</span>
                                     </Link>
                                 </li>
                                 <li>
