@@ -22,6 +22,7 @@ import AdminRoute from "./AdminRoute";
 import AdminAllIssues from "../Pages/Dashboard/Admin/AdminAllIssues";
 import ManageStaff from "../Pages/Dashboard/Admin/ManageStaff";
 import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers";
+import PaymentPage from "../Pages/Dashboard/Admin/PaymentPage";
 
 export const router = createBrowserRouter([
     {
@@ -101,6 +102,10 @@ export const router = createBrowserRouter([
             {
                 path:'/dashboard/manage-users',
                 element:<AdminRoute><ManageUsers/></AdminRoute>
+            },
+            {
+                path:'/dashboard/payment-page',
+                element:<AdminRoute><PaymentPage/></AdminRoute>
             }
 
         ]

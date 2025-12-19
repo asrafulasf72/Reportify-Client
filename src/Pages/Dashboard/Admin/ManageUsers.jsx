@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Loader from "../../../Component/Loader";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -43,7 +44,7 @@ const ManageUsers = () => {
   };
 
   if (isLoading) {
-    return <div className="text-center mt-10">Loading users...</div>;
+    return <Loader/>
   }
 
   return (

@@ -11,9 +11,12 @@ const PaymentSuccess = () => {
   const navigate = useNavigate();
   const { refetchUser } = useAuth();
 
-  useEffect(() => {
-    if (!sessionId) return;
+useEffect(() => {
+  if (!sessionId) return;
 
+  let isCalled = false;
+
+  if (!isCalled) {
     axiosSecure
       .post("/payment-success", { sessionId })
       .then(() => {
@@ -24,7 +27,10 @@ const PaymentSuccess = () => {
       .catch(() => {
         toast.error("Payment verification failed");
       });
-  }, [sessionId]);
+
+    isCalled = true;
+  }
+}, [sessionId]);
 
   return <div className="p-10 text-center">Processing payment...</div>;
 };
