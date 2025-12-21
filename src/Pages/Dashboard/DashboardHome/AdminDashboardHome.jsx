@@ -9,6 +9,7 @@ import {
   FileText,
   Wallet,
   Users,
+  Loader,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
@@ -83,7 +84,11 @@ const AdminDashboardHome = () => {
   });
 
   if (isLoading) {
-    return <div className="p-10 text-slate-500">Loading dashboard...</div>;
+      return (
+      <div className="flex justify-center items-center h-[60vh]">
+        <Loader className="animate-spin" size={40} />
+      </div>
+    );
   }
 
   const { stats, latestIssues, latestPayments, latestUsers } = data;
