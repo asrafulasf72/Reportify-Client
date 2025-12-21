@@ -111,6 +111,12 @@ const DashboardLayout = () => {
                                         <span className="is-drawer-close:hidden">Assigned Issues</span>
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link to='/dashboard/staff-profile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assigned Issues">
+                                        <UserRoundPen size={20} />
+                                        <span className="is-drawer-close:hidden">Staf Profile</span>
+                                    </Link>
+                                </li>
                             </>
                         }
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import Loader from "../../../Component/Loader";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { Loader } from "lucide-react";
 
 const AdminAllIssues = () => {
     const axiosSecure = useAxiosSecure();
@@ -28,7 +28,13 @@ const AdminAllIssues = () => {
         },
     });
 
-    if (isLoading) return <Loader />;
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-[60vh]">
+                <Loader className="animate-spin" size={40} />
+            </div>
+        );
+    }
 
     // Assign staff handler
     const handleAssignStaff = async () => {

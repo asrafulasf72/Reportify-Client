@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Loader } from "lucide-react";
 
 const statusOptions = {
   pending: ["in-progress"],
@@ -45,7 +46,11 @@ const AssignedIssues = () => {
   });
 
   if (isLoading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-[60vh]">
+        <Loader className="animate-spin" size={40} />
+      </div>
+    );
   }
 
   return (
@@ -102,11 +107,10 @@ const AssignedIssues = () => {
                 <td>{issue.category}</td>
                 <td>
                   <span
-                    className={`badge ${
-                      issue.priority === "high"
+                    className={`badge ${issue.priority === "high"
                         ? "badge-error"
                         : "badge-info"
-                    }`}
+                      }`}
                   >
                     {issue.priority}
                   </span>

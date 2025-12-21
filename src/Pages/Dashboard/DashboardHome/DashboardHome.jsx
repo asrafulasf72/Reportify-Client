@@ -1,21 +1,25 @@
 import React from 'react'
 import useRole from '../../../Hooks/useRole';
-import Loader from '../../../Component/Loader';
 import AdminDashboardHome from './AdminDashboardHome';
 import StaffDashboardHome from './StaffDashboardHome';
 import CitizenDashBoardHome from './CitizenDashBoardHome';
+import { Loader } from 'lucide-react';
 
- const DashboardHome = () => {
-    const {role, roleLoading}=useRole();
-    if(roleLoading){
-        return <Loader/>
+const DashboardHome = () => {
+    const { role, roleLoading } = useRole();
+    if (roleLoading) {
+        return (
+            <div className="flex justify-center items-center h-[60vh]">
+                <Loader className="animate-spin" size={40} />
+            </div>
+        );
     }
-    
-    if(role === 'admin'){
+
+    if (role === 'admin') {
         return <AdminDashboardHome></AdminDashboardHome>
-    }else if(role === 'staff'){
+    } else if (role === 'staff') {
         return <StaffDashboardHome></StaffDashboardHome>
-    }else{
+    } else {
         return <CitizenDashBoardHome></CitizenDashBoardHome>
     }
 }
