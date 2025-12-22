@@ -19,7 +19,7 @@ const LatestResolve = () => {
         queryKey: ["latest-resolved"],
         queryFn: async () => {
             const res = await axios.get(
-                "http://localhost:3000/public/issues/latest-resolved"
+                "https://reportify-server.vercel.app/public/issues/latest-resolved"
             );
             return res.data;
         },

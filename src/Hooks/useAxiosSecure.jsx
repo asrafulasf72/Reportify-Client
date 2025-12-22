@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { auth } from '../Firebase/firebase.init'
 
 const axiosSecure = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://reportify-server.vercel.app',
 })
 
 const useAxiosSecure = () => {

@@ -43,7 +43,7 @@ const AllIssues = () => {
         queryKey: ["all-issues", search, category, status, priority, page],
         queryFn: async () => {
             const params = { page, limit, search, category, status, priority };
-            const res = await axios.get("http://localhost:3000/all-issues", { params });
+            const res = await axios.get("https://reportify-server.vercel.app/all-issues", { params });
             return res.data;
         },
         keepPreviousData: true
