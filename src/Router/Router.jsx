@@ -26,6 +26,7 @@ import PaymentPage from "../Pages/Dashboard/Admin/PaymentPage";
 import AssignedIssues from "../Pages/Dashboard/Staff/Assignedissues";
 import StaffRoute from "./StaffRoute"
 import StaffProfile from "../Pages/Dashboard/Staff/StaffProfile";
+import AdminProfile from "../Pages/Dashboard/Admin/AdminProfile";
 
 export const router = createBrowserRouter([
     {
@@ -117,6 +118,10 @@ export const router = createBrowserRouter([
             {
                 path:'/dashboard/staff-profile',
                 element: <StaffRoute><StaffProfile/></StaffRoute>
+            },
+            {
+                path:'/dashboard/admin-profile',
+                element:<AdminRoute><AdminProfile/></AdminRoute>
             }
 
         ]

@@ -99,6 +99,13 @@ const DashboardLayout = () => {
                                         <span className="is-drawer-close:hidden">Payment Page</span>
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link to='/dashboard/admin-profile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
+                                        {/* Home icon */}
+                                        <UserRoundPen size={20} />
+                                        <span className="is-drawer-close:hidden">My Profile</span>
+                                    </Link>
+                                </li>
 
                             </>
                         }
@@ -112,9 +119,9 @@ const DashboardLayout = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to='/dashboard/staff-profile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assigned Issues">
+                                    <Link to='/dashboard/staff-profile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
                                         <UserRoundPen size={20} />
-                                        <span className="is-drawer-close:hidden">Staf Profile</span>
+                                        <span className="is-drawer-close:hidden">My Profile</span>
                                     </Link>
                                 </li>
                             </>
