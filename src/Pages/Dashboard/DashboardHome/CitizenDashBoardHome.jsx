@@ -16,39 +16,47 @@ import {
   CreditCard,
 } from "lucide-react";
 
-/* ================= COLORS ================= */
+/* COLORS  */
 const COLORS = ["#6366F1", "#F59E0B", "#10B981", "#EF4444"];
 
-/* ================= STAT CARD ================= */
+/*  STAT CARD  */
 const StatCard = ({ title, value, icon: Icon, color }) => (
-  <div className="bg-white rounded-2xl shadow-md p-6 flex items-center gap-4 hover:shadow-xl transition transform hover:-translate-y-1">
-    <div className={`p-4 rounded-xl ${color}`}>
-      <Icon className="text-white" size={28} />
+  <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 flex items-center gap-4 hover:shadow-xl transition transform hover:-translate-y-1">
+    <div className={`p-3 sm:p-4 rounded-xl ${color}`}>
+      <Icon className="text-white" size={24} />
     </div>
     <div>
-      <p className="text-gray-500 text-sm">{title}</p>
-      <h2 className="text-2xl font-bold">{value}</h2>
+      <p className="text-gray-500 text-xs sm:text-sm">
+        {title}
+      </p>
+      <h2 className="text-lg sm:text-2xl font-bold">
+        {value}
+      </h2>
     </div>
   </div>
 );
 
-/* ================= CIRCLE CHART ================= */
+/*  CIRCLE CHART  */
 const CircleChart = ({ title, subtitle, data }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
-      <h3 className="font-semibold text-lg">{title}</h3>
-      <p className="text-sm text-gray-500 mb-4">{subtitle}</p>
+    <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 hover:shadow-lg transition">
+      <h3 className="font-semibold text-base sm:text-lg">
+        {title}
+      </h3>
+      <p className="text-xs sm:text-sm text-gray-500 mb-4">
+        {subtitle}
+      </p>
 
-      <ResponsiveContainer width="100%" height={240}>
+      <ResponsiveContainer width="100%" height={220}>
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={65}
-            outerRadius={95}
+            innerRadius={50}
+            outerRadius={80}
             paddingAngle={4}
             dataKey="value"
           >
@@ -63,7 +71,7 @@ const CircleChart = ({ title, subtitle, data }) => {
         </PieChart>
       </ResponsiveContainer>
 
-      {/* ===== LEGEND + INFO ===== */}
+      {/* LEGEND */}
       <div className="mt-4 space-y-2">
         {data.map((item, index) => {
           const percent =
@@ -74,7 +82,7 @@ const CircleChart = ({ title, subtitle, data }) => {
           return (
             <div
               key={index}
-              className="flex items-center justify-between text-sm"
+              className="flex items-center justify-between text-xs sm:text-sm"
             >
               <div className="flex items-center gap-2">
                 <span
@@ -88,10 +96,9 @@ const CircleChart = ({ title, subtitle, data }) => {
                   {item.name}
                 </span>
               </div>
-
               <div className="font-medium text-gray-800">
-                {item.value}{" "}
-                <span className="text-gray-400">
+                {item.value}
+                <span className="text-gray-400 ml-1">
                   ({percent}%)
                 </span>
               </div>
@@ -103,7 +110,7 @@ const CircleChart = ({ title, subtitle, data }) => {
   );
 };
 
-/* ================= MAIN DASHBOARD ================= */
+/*  MAIN DASHBOARD  */
 const CitizenDashBoardHome = () => {
   const axiosSecure = useAxiosSecure();
 
@@ -130,11 +137,13 @@ const CitizenDashBoardHome = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold">Citizen Dashboard</h1>
+    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">
+        Citizen Dashboard
+      </h1>
 
-      {/* ===== STAT CARDS ===== */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+      {/* STAT CARDS*/}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
         <StatCard
           title="Total Issues"
           value={data.totalIssues}
@@ -167,7 +176,7 @@ const CitizenDashBoardHome = () => {
         />
       </div>
 
-      {/* ===== CHARTS ===== */}
+      {/* CHARTS  */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CircleChart
           title="Issue Status Overview"

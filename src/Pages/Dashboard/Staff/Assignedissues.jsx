@@ -20,7 +20,6 @@ const AssignedIssues = () => {
     priority: "",
   });
 
-  //  Fetch Assigned Issues
   const { data: issues = [], isLoading } = useQuery({
     queryKey: ["assignedIssues", filters],
     queryFn: async () => {
@@ -31,11 +30,9 @@ const AssignedIssues = () => {
     },
   });
 
-  //  Update Status
   const { mutate: updateStatus } = useMutation({
-    mutationFn: async ({ id, status }) => {
-      return axiosSecure.patch(`/staff/issues/status/${id}`, { status });
-    },
+    mutationFn: async ({ id, status }) =>
+      axiosSecure.patch(`/staff/issues/status/${id}`, { status }),
     onSuccess: () => {
       toast.success("Status updated");
       queryClient.invalidateQueries(["assignedIssues"]);
@@ -54,13 +51,15 @@ const AssignedIssues = () => {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Assigned Issues</h2>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <h2 className="text-xl sm:text-2xl font-bold mb-4">
+        Assigned Issues
+      </h2>
 
       {/* Filters */}
-      <div className="flex gap-3 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-3 mb-5">
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full"
           onChange={(e) =>
             setFilters((p) => ({ ...p, status: e.target.value }))
           }
@@ -74,7 +73,7 @@ const AssignedIssues = () => {
         </select>
 
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full"
           onChange={(e) =>
             setFilters((p) => ({ ...p, priority: e.target.value }))
           }
@@ -86,61 +85,74 @@ const AssignedIssues = () => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          <thead>
+      <div className="bg-white rounded-xl shadow overflow-x-auto">
+        <table className="table table-zebra w-full text-sm">
+          <thead className="bg-gray-100">
             <tr>
               <th>#</th>
               <th>Title</th>
-              <th>Category</th>
+              <th className="hidden md:table-cell">Category</th>
               <th>Priority</th>
               <th>Status</th>
-              <th>Boosted</th>
+              <th className="hidden sm:table-cell">Boosted</th>
               <th>Action</th>
             </tr>
           </thead>
+
           <tbody>
             {issues.map((issue, idx) => (
               <tr key={issue._id}>
                 <td>{idx + 1}</td>
-                <td>{issue.title}</td>
-                <td>{issue.category}</td>
+                <td className="max-w-[180px] truncate">
+                  {issue.title}
+                </td>
+
+                <td className="hidden md:table-cell">
+                  {issue.category}
+                </td>
+
                 <td>
                   <span
-                    className={`badge ${issue.priority === "high"
+                    className={`badge ${
+                      issue.priority === "high"
                         ? "badge-error"
                         : "badge-info"
-                      }`}
+                    }`}
                   >
                     {issue.priority}
                   </span>
                 </td>
+
                 <td>
                   <span className="badge badge-outline">
                     {issue.status}
                   </span>
                 </td>
-                <td>
+
+                <td className="hidden sm:table-cell">
                   {issue.isBoosted ? (
-                    <span className="badge badge-success">Yes</span>
+                    <span className="badge badge-success">
+                      Yes
+                    </span>
                   ) : (
                     "No"
                   )}
                 </td>
+
                 <td>
                   {statusOptions[issue.status] ? (
                     <select
-                      className="select select-sm select-bordered"
+                      className="select select-sm select-bordered w-full sm:w-auto"
+                      defaultValue=""
                       onChange={(e) =>
                         updateStatus({
                           id: issue._id,
                           status: e.target.value,
                         })
                       }
-                      defaultValue=""
                     >
                       <option disabled value="">
-                        Change Status
+                        Change
                       </option>
                       {statusOptions[issue.status].map((st) => (
                         <option key={st} value={st}>
@@ -158,7 +170,7 @@ const AssignedIssues = () => {
         </table>
 
         {issues.length === 0 && (
-          <p className="text-center mt-6 text-gray-500">
+          <p className="text-center py-6 text-gray-500">
             No assigned issues found
           </p>
         )}

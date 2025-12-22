@@ -12,7 +12,7 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 const Register = () => {
   const [showPass, setShowPass] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { registerUser, UpdateUserProfile } = useAuth()
+  const { registerUser, UpdateUserProfile} = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
 

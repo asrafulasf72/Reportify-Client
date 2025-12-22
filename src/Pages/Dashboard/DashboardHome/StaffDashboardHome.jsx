@@ -1,19 +1,8 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
-import {
-  ClipboardList,
-  CheckCircle,
-  CalendarCheck,
-  Loader,
-} from "lucide-react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip} from "recharts";
+import { ClipboardList, CheckCircle, CalendarCheck, Loader} from "lucide-react";
 
 const COLORS = ["#6366F1", "#22C55E", "#F59E0B", "#EF4444"];
 
@@ -37,9 +26,9 @@ const StaffDashboardHome = () => {
   }
 
   const {
-    totalAssigned,
-    resolvedCount,
-    todayTasks,
+    totalAssigned = 0,
+    resolvedCount = 0,
+    todayTasks = 0,
     statusStats = [],
   } = data;
 
@@ -49,9 +38,10 @@ const StaffDashboardHome = () => {
   }));
 
   return (
-    <div className="p-6 space-y-6">
-      {/* ================= CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+      {/* ================= STAT CARDS ================= */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard
           title="Assigned Issues"
           value={totalAssigned}
@@ -70,17 +60,19 @@ const StaffDashboardHome = () => {
       </div>
 
       {/* ================= CHART ================= */}
-      <div className="bg-white rounded-xl shadow p-6 h-[350px]">
-        <h2 className="text-lg font-semibold mb-4">
+      <div className="bg-white rounded-xl shadow p-4 sm:p-6 h-[280px] sm:h-[350px]">
+        <h2 className="text-base sm:text-lg font-semibold mb-3">
           Issue Status Distribution
         </h2>
+
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
               cy="50%"
-              outerRadius={110}
+              innerRadius={40}
+              outerRadius={window.innerWidth < 640 ? 80 : 110}
               dataKey="value"
               label
             >
@@ -101,13 +93,17 @@ const StaffDashboardHome = () => {
 
 const StatCard = ({ title, value, icon }) => {
   return (
-    <div className="bg-white rounded-xl shadow p-5 flex items-center gap-4">
-      <div className="p-3 rounded-full bg-gray-100">
+    <div className="bg-white rounded-xl shadow p-4 sm:p-5 flex items-center gap-4">
+      <div className="p-3 rounded-full bg-gray-100 shrink-0">
         {icon}
       </div>
       <div>
-        <p className="text-gray-500 text-sm">{title}</p>
-        <h2 className="text-2xl font-bold">{value}</h2>
+        <p className="text-gray-500 text-xs sm:text-sm">
+          {title}
+        </p>
+        <h2 className="text-xl sm:text-2xl font-bold">
+          {value}
+        </h2>
       </div>
     </div>
   );

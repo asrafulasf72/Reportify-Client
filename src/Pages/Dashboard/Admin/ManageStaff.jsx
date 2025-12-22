@@ -9,30 +9,16 @@ import { upLoadImage } from "../../../utils";
 const ManageStaff = () => {
   const axiosSecure = useAxiosSecure();
 
-  /* -------------------- STATE -------------------- */
   const [staffs, setStaffs] = useState([]);
   const [showPass, setShowPass] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState(null);
 
-  /* -------------------- MODAL REFS -------------------- */
   const addModalRef = useRef();
   const updateModalRef = useRef();
 
-  /* -------------------- FORMS -------------------- */
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register: updateRegister, handleSubmit: handleUpdateSubmit, reset: updateReset } = useForm();
 
-  const {
-    register: updateRegister,
-    handleSubmit: handleUpdateSubmit,
-    reset: updateReset,
-  } = useForm();
-
-  /* -------------------- LOAD STAFFS -------------------- */
   useEffect(() => {
     loadStaffs();
   }, []);
@@ -42,24 +28,12 @@ const ManageStaff = () => {
     setStaffs(res.data);
   };
 
-  /* -------------------- ADD STAFF -------------------- */
   const onAddStaff = async (data) => {
-    const { displayName, email, password, photoURL, phone } = data;
-    const imageFile = photoURL[0];
-
+    const imageFile = data.photoURL[0];
     try {
       const imageURL = await upLoadImage(imageFile);
-
-      const staffInfo = {
-        email,
-        password,
-        displayName,
-        phone,
-        photoURL: imageURL,
-      };
-
+      const staffInfo = { ...data, photoURL: imageURL };
       const res = await axiosSecure.post("/admin/staff", staffInfo);
-
       if (res.data?.success) {
         toast.success("Staff created successfully");
         reset();
@@ -67,14 +41,10 @@ const ManageStaff = () => {
         loadStaffs();
       }
     } catch (err) {
-      console.error(err);
       toast.error(err?.response?.data?.message || "Failed to create staff");
     }
   };
 
-
-
-  /* -------------------- UPDATE STAFF -------------------- */
   const openUpdateModal = (staff) => {
     setSelectedStaff(staff);
     updateReset(staff);
@@ -88,7 +58,6 @@ const ManageStaff = () => {
     loadStaffs();
   };
 
-  /* -------------------- DELETE STAFF -------------------- */
   const handleDelete = async (email) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -98,7 +67,6 @@ const ManageStaff = () => {
       confirmButtonColor: "#d33",
       confirmButtonText: "Yes, delete",
     });
-
     if (!result.isConfirmed) return;
 
     await axiosSecure.delete(`/admin/staff/${email}`);
@@ -106,7 +74,6 @@ const ManageStaff = () => {
     loadStaffs();
   };
 
-  /* ======================= UI ======================= */
   return (
     <div className="p-4">
       {/* HEADER */}
@@ -114,15 +81,15 @@ const ManageStaff = () => {
         <h2 className="text-2xl font-bold">Manage Staff</h2>
         <button
           onClick={() => addModalRef.current.showModal()}
-          className="btn btn-primary"
+          className="btn btn-primary flex items-center gap-2"
         >
-          <Plus /> Add Staff
+          <Plus size={18} /> Add Staff
         </button>
       </div>
 
       {/* TABLE */}
       <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
+        <table className="table table-zebra w-full min-w-[650px] md:min-w-full text-sm sm:text-base">
           <thead>
             <tr>
               <th>#</th>
@@ -135,29 +102,27 @@ const ManageStaff = () => {
           </thead>
           <tbody>
             {staffs.map((staff, index) => (
-              <tr key={staff.email}>
+              <tr key={staff.email} className="text-xs sm:text-sm">
                 <td>{index + 1}</td>
-                 <td>
+                <td>
                   <div className="avatar">
                     <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src={staff.photoURL}
-                        alt={staff.displayName} />
+                      <img src={staff.photoURL} alt={staff.displayName} />
                     </div>
                   </div>
                 </td>
                 <td>{staff.displayName}</td>
                 <td>{staff.email}</td>
                 <td>{staff.phone || "N/A"}</td>
-                <td className="space-x-2">
+                <td className="flex flex-wrap gap-1">
                   <button
-                    className="btn btn-xs btn-info"
+                    className="btn btn-xs sm:btn-sm btn-info"
                     onClick={() => openUpdateModal(staff)}
                   >
                     Update
                   </button>
                   <button
-                    className="btn btn-xs btn-error"
+                    className="btn btn-xs sm:btn-sm btn-error"
                     onClick={() => handleDelete(staff.email)}
                   >
                     Delete
@@ -169,106 +134,41 @@ const ManageStaff = () => {
         </table>
       </div>
 
-      {/* ================= ADD STAFF MODAL ================= */}
+      {/* ADD STAFF MODAL */}
       <dialog ref={addModalRef} className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg text-center mb-3">
-            Create Staff Account
-          </h3>
-
+        <div className="modal-box w-full sm:w-[400px]">
+          <h3 className="font-bold text-lg text-center mb-3">Create Staff Account</h3>
           <form onSubmit={handleSubmit(onAddStaff)} className="space-y-3">
-            <input
-              {...register("displayName", { required: true })}
-              placeholder="Name"
-              className="input input-bordered w-full"
-            />
-            {errors.displayName && (
-              <p className="text-red-500">Name is required</p>
-            )}
-
-            <input
-              {...register("email", { required: true })}
-              placeholder="Email"
-              className="input input-bordered w-full"
-            />
-
-            <input
-              {...register("phone")}
-              placeholder="Phone"
-              className="input input-bordered w-full"
-            />
-
-            <input
-              {...register("photoURL")}
-              placeholder="Photo URL"
-              className="input input-bordered w-full file-input"
-              type="file"
-            />
-
+            <input {...register("displayName", { required: true })} placeholder="Name" className="input input-bordered w-full" />
+            {errors.displayName && <p className="text-red-500 text-xs">Name is required</p>}
+            <input {...register("email", { required: true })} placeholder="Email" className="input input-bordered w-full" />
+            <input {...register("phone")} placeholder="Phone" className="input input-bordered w-full" />
+            <input {...register("photoURL")} type="file" className="file-input input-bordered w-full" />
             <div className="relative">
-              <input
-                type={showPass ? "text" : "password"}
-                {...register("password", { required: true, minLength: 6 })}
-                placeholder="Password"
-                className="input input-bordered w-full"
-              />
-              <span
-                className="absolute right-3 top-3 cursor-pointer z-50"
-                onClick={() => setShowPass(!showPass)}
-              >
-                {showPass ? <Eye /> : <EyeOff />}
+              <input type={showPass ? "text" : "password"} {...register("password", { required: true, minLength: 6 })} placeholder="Password" className="input input-bordered w-full" />
+              <span className="absolute right-3 top-3 cursor-pointer z-50" onClick={() => setShowPass(!showPass)}>
+                {showPass ? <Eye size={18} /> : <EyeOff size={18} />}
               </span>
             </div>
-
-            <div className="modal-action">
-              <button className="btn btn-primary">Create</button>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => addModalRef.current.close()}
-              >
-                Cancel
-              </button>
+            <div className="modal-action flex flex-col sm:flex-row sm:justify-end gap-2">
+              <button className="btn btn-primary w-full sm:w-auto">Create</button>
+              <button type="button" className="btn w-full sm:w-auto" onClick={() => addModalRef.current.close()}>Cancel</button>
             </div>
           </form>
         </div>
       </dialog>
 
-      {/* ================= UPDATE STAFF MODAL ================= */}
+      {/* UPDATE STAFF MODAL */}
       <dialog ref={updateModalRef} className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg text-center mb-3">
-            Update Staff
-          </h3>
-
-          <form
-            onSubmit={handleUpdateSubmit(onUpdateStaff)}
-            className="space-y-3"
-          >
-            <input
-              {...updateRegister("displayName")}
-              className="input input-bordered w-full"
-            />
-
-            <input
-              {...updateRegister("phone")}
-              className="input input-bordered w-full"
-            />
-
-            <input
-              {...updateRegister("photoURL")}
-              className="input input-bordered w-full"
-            />
-
-            <div className="modal-action">
-              <button className="btn btn-primary">Update</button>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => updateModalRef.current.close()}
-              >
-                Cancel
-              </button>
+        <div className="modal-box w-full sm:w-[400px]">
+          <h3 className="font-bold text-lg text-center mb-3">Update Staff</h3>
+          <form onSubmit={handleUpdateSubmit(onUpdateStaff)} className="space-y-3">
+            <input {...updateRegister("displayName")} placeholder="Name" className="input input-bordered w-full" />
+            <input {...updateRegister("phone")} placeholder="Phone" className="input input-bordered w-full" />
+            <input {...updateRegister("photoURL")} placeholder="Photo URL" className="input input-bordered w-full" />
+            <div className="modal-action flex flex-col sm:flex-row sm:justify-end gap-2">
+              <button className="btn btn-primary w-full sm:w-auto">Update</button>
+              <button type="button" className="btn w-full sm:w-auto" onClick={() => updateModalRef.current.close()}>Cancel</button>
             </div>
           </form>
         </div>

@@ -42,64 +42,48 @@ const PaymentPage = () => {
     0
   );
 
-  const premiumCount = filteredPayments.filter(
-    (p) => p.type === "premium"
-  ).length;
+  const premiumCount = filteredPayments.filter((p) => p.type === "premium")
+    .length;
 
-  const boostCount = filteredPayments.filter(
-    (p) => p.type === "boost"
-  ).length;
+  const boostCount = filteredPayments.filter((p) => p.type === "boost").length;
 
   if (isLoading) return <Loader />;
 
   return (
     <div className="p-4 md:p-6 space-y-6">
 
-      {/* 🔹 Page Title */}
-      <h2 className="text-2xl md:text-3xl font-bold">
+      {/* Page Title */}
+      <h2 className="text-2xl md:text-3xl font-bold text-center md:text-left">
         💳 Payments Overview
       </h2>
 
-      {/* 🔹 Summary Cards */}
+      {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="card bg-green-200 shadow">
-          <div className="card-body">
-            <p className="text-gray-500">Total Revenue</p>
-            <h3 className="text-2xl font-bold">
-              ৳ {totalAmount.toLocaleString()}
-            </h3>
-          </div>
+        <div className="card bg-green-200 shadow p-4 text-center sm:text-left">
+          <p className="text-gray-500">Total Revenue</p>
+          <h3 className="text-2xl font-bold">৳ {totalAmount.toLocaleString()}</h3>
         </div>
 
-        <div className="card bg-blue-200 shadow">
-          <div className="card-body">
-            <p className="text-gray-500">Total Payments</p>
-            <h3 className="text-2xl font-bold">
-              {filteredPayments.length}
-            </h3>
-          </div>
+        <div className="card bg-blue-200 shadow p-4 text-center sm:text-left">
+          <p className="text-gray-500">Total Payments</p>
+          <h3 className="text-2xl font-bold">{filteredPayments.length}</h3>
         </div>
 
-        <div className="card bg-purple-200 shadow">
-          <div className="card-body">
-            <p className="text-gray-500">Premium</p>
-            <h3 className="text-2xl font-bold">{premiumCount}</h3>
-          </div>
+        <div className="card bg-purple-200 shadow p-4 text-center sm:text-left">
+          <p className="text-gray-500">Premium</p>
+          <h3 className="text-2xl font-bold">{premiumCount}</h3>
         </div>
 
-        <div className="card bg-orange-200 shadow">
-          <div className="card-body">
-            <p className="text-gray-500">Boost</p>
-            <h3 className="text-2xl font-bold">{boostCount}</h3>
-          </div>
+        <div className="card bg-orange-200 shadow p-4 text-center sm:text-left">
+          <p className="text-gray-500">Boost</p>
+          <h3 className="text-2xl font-bold">{boostCount}</h3>
         </div>
       </div>
 
-      {/*  Search & Filters (Single Row Responsive) */}
+      {/* Search & Filters */}
       <div className="card bg-base-100 shadow">
         <div className="card-body">
           <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center">
-
             <input
               type="text"
               placeholder="Search by email / type / status"
@@ -116,9 +100,7 @@ const PaymentPage = () => {
               <option value="">All Months</option>
               {[...Array(12)].map((_, i) => (
                 <option key={i} value={i + 1}>
-                  {new Date(0, i).toLocaleString("default", {
-                    month: "long",
-                  })}
+                  {new Date(0, i).toLocaleString("default", { month: "long" })}
                 </option>
               ))}
             </select>
@@ -151,9 +133,9 @@ const PaymentPage = () => {
       </div>
 
       {/* Payments Table */}
-      <div className="card bg-base-100 shadow">
-        <div className="card-body overflow-x-auto">
-          <table className="table table-zebra min-w-[700px]">
+      <div className="card bg-base-100 shadow overflow-x-auto">
+        <div className="card-body p-0">
+          <table className="table table-zebra min-w-[600px] md:min-w-full">
             <thead>
               <tr>
                 <th>#</th>
@@ -171,8 +153,7 @@ const PaymentPage = () => {
                   <td>{index + 1}</td>
                   <td className="break-all">{payment.email}</td>
                   <td>
-                    ৳ {payment.amount}{" "}
-                    {payment.currency?.toUpperCase()}
+                    ৳ {payment.amount} {payment.currency?.toUpperCase()}
                   </td>
                   <td>
                     <span
@@ -186,13 +167,9 @@ const PaymentPage = () => {
                     </span>
                   </td>
                   <td>
-                    <span className="badge badge-success">
-                      {payment.status}
-                    </span>
+                    <span className="badge badge-success">{payment.status}</span>
                   </td>
-                  <td>
-                    {new Date(payment.createdAt).toLocaleDateString()}
-                  </td>
+                  <td>{new Date(payment.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
