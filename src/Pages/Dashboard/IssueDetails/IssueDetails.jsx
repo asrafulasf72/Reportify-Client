@@ -3,8 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
-import { ArrowBigUp, Trash2 } from "lucide-react";
-import Loader from "../../../Component/Loader";
+import { ArrowBigUp, Loader, Trash2 } from "lucide-react";
 import DeleteIssueBtn from "../My Issue/DeleteIssueBtn";
 
 const IssueDetails = () => {
@@ -21,7 +20,13 @@ const IssueDetails = () => {
     },
   });
 
-  if (isLoading) return <Loader />;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-[60vh]">
+        <Loader className="animate-spin" size={40} />
+      </div>
+    );
+  }
 
   const isOwner = user?.email === issue.citizenEmail;
   const isPending = issue.status === "pending";

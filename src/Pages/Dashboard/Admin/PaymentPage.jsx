@@ -2,16 +2,17 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loader from "../../../Component/Loader";
+import { generateInvoicePDF } from "../../../utils/generateInvoice";
 
 const PaymentPage = () => {
   const axiosSecure = useAxiosSecure();
 
-  //  Search & filter states
+  // Search & filter states
   const [searchTerm, setSearchTerm] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
 
-  //  Fetch all payments once
+  // Fetch all payments
   const { data: payments = [], isLoading } = useQuery({
     queryKey: ["admin-payments"],
     queryFn: async () => {
@@ -20,7 +21,7 @@ const PaymentPage = () => {
     },
   });
 
-  //  Client-side filtering (smooth typing)
+  // Client-side filtering
   const filteredPayments = useMemo(() => {
     return payments.filter((p) => {
       const searchMatch =
@@ -36,7 +37,7 @@ const PaymentPage = () => {
     });
   }, [payments, searchTerm, month, year]);
 
-  //  Summary data
+  // Summary data
   const totalAmount = filteredPayments.reduce(
     (sum, p) => sum + Number(p.amount || 0),
     0
@@ -144,6 +145,7 @@ const PaymentPage = () => {
                 <th>Type</th>
                 <th>Status</th>
                 <th>Date</th>
+                <th>Invoice</th>
               </tr>
             </thead>
 
@@ -170,15 +172,21 @@ const PaymentPage = () => {
                     <span className="badge badge-success">{payment.status}</span>
                   </td>
                   <td>{new Date(payment.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => generateInvoicePDF(payment)}
+                    >
+                      Download PDF
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
           {filteredPayments.length === 0 && (
-            <p className="text-center mt-6 text-gray-500">
-              No payments found
-            </p>
+            <p className="text-center mt-6 text-gray-500">No payments found</p>
           )}
         </div>
       </div>
