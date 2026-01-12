@@ -5,6 +5,7 @@ import HowItWork from '../How Work/HowItWork';
 import WhyChoose from '../How Work/WhyChoose';
 import StatsSection from '../How Work/StatsSection';
 import LatestResolve from '../LatestResolve';
+import FAQ from '../FAQ/FAQ';
 
 
 
@@ -18,6 +19,7 @@ import LatestResolve from '../LatestResolve';
         <HowItWork/>
         <WhyChoose/>
         <StatsSection/>
+        <FAQ />
         
     </div>
   )

@@ -23,7 +23,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar bg-[#115E59] text-white shadow-sm">
+    <div className="navbar bg-[#115E59] text-white shadow-sm top-0 sticky z-50">
       <div className="flex w-[90%] mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -51,8 +51,10 @@ const Navbar = () => {
               {navlink}
             </ul>
           </div>
-          <Link to="/" className="text-2xl font-bold text-[#14B8A6]">
-            Reportify
+          
+          <Link to="/" className="text-2xl font-bold text-[#14B8A6] flex items-center">
+          <img className='w-8 h-8' src="/reportify-icon.png" alt="" />
+            eportify
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">

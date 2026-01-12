@@ -1,5 +1,6 @@
 import React from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { Link } from "react-router";
 
 const Footer = () => {
   return (
@@ -19,9 +20,9 @@ const Footer = () => {
         <div>
           <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-gray-200 text-sm">
-            <li className="hover:text-white cursor-pointer">Report an Issue</li>
-            <li className="hover:text-white cursor-pointer">Track Status</li>
-            <li className="hover:text-white cursor-pointer">Dashboard</li>
+            <li className="hover:text-white cursor-pointer"><Link to='/dashboard/reportIssue'>Report an Issue</Link></li>
+            <li className="hover:text-white cursor-pointer"><Link to='/all-issues-page'>All Issues</Link></li>
+            <li className="hover:text-white cursor-pointer"><Link to='/dashboard'>Dashboard</Link></li>
             <li className="hover:text-white cursor-pointer">Support</li>
           </ul>
         </div>
@@ -45,7 +46,7 @@ const Footer = () => {
               <Mail size={18} /> support@reportify.com
             </li>
             <li className="flex items-center gap-2">
-              <Phone size={18} /> +1 234 567 890
+              <Phone size={18} /> +880 1307800938
             </li>
             <li className="flex items-center gap-2">
               <MapPin size={18} /> Dhaka, Bangladesh
@@ -56,7 +57,7 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="mt-10 border-t border-gray-400/40 pt-5 text-center text-gray-300 text-sm">
-        © {new Date().getFullYear()} Reportify — All rights reserved.
+        © {new Date().getFullYear()} Reportify - All rights reserved.
       </div>
     </footer>
   );
